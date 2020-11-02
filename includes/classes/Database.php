@@ -28,8 +28,9 @@ class Database {
 		foreach ($values as $key => $value) {
 			$stmt->bindValue($key, $value); // ex: $stmt->bindValue(':username', $username)
 		}
-		$result = $stmt->execute();
 
+		$result = $stmt->execute();
+		
 		if ($mode != self::FETCH_SINGLE && $mode != self::FETCH_ALL && $mode != self::EXECUTE ) {
 			throw new Exception("Invalid mode in database query!");
 		} elseif ($mode == self::FETCH_SINGLE) {

@@ -15,7 +15,11 @@ class Account {
 		$sql = "SELECT * FROM users";
 
 		if($field!= '')
-			$sql.= " WHERE username = :field or email = :field";
+			$sql.= " WHERE username = :field or email = :field and";
+		else 
+			$sql.= "WHERE ";
+
+		$sql = "status=1";
 
 		return $this->db->query($sql, Database::FETCH_ALL, [':field' => $field]);
 	}
