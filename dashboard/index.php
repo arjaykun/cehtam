@@ -1,56 +1,57 @@
-<?php 
-	include_once '../includes/layouts/header.php';
-	include_once '../includes/loadclasses.php' ;
+<?php
 
-	$auth = new Auth;
-?>
-<div class="container is-max-desktop p-2">
+$uri = $_SERVER['REQUEST_URI'];
 
-	<?php 
-		$dashboard_menu = 'dashboard';
-		include_once './components/dashboard-nav.php';
-	?>
-
-	<section class="hero is-info welcome is-small">
-		<div class="hero-body">
-			<div class="container">
-				<h1 class="title">
-				  Hello, <?php echo ucwords($auth->user()->name) . " (<small class='has-text-light'>".$auth->user()->username."</small>)" ?>.
-				</h1>
-				<h2 class="subtitle">
-				  I hope you are having a great day!
-				</h2>
-			</div>
-		</div>
-	</section>
-
-	<section class="info-tiles">
-		<div class="tile is-ancestor has-text-centered">
-
-			<div class="tile is-parent">
-				<article class="tile is-child box">
-				  <p class="title">69</p>
-				  <p class="subtitle">Employees</p>
-				</article>
-			</div>
-
-			<div class="tile is-parent">
-				<article class="tile is-child box">
-				  <p class="title">10</p>
-				  <p class="subtitle">Departments</p>
-				</article>
-			</div>
-
-			<div class="tile is-parent">
-				<article class="tile is-child box">
-				  <p class="title">10,123</p>
-				  <p class="subtitle">Time Logs</p>
-				</article>
-			</div>
-
-		</div>
-	</section>
-
-</div>
-
-<?php include '../includes/layouts/footer.php' ?>
+switch ($uri) {
+	// dashboar route
+	case '/dashboard/':
+		include_once './views/dashboard/index.php';
+		break;
+	case preg_match('/^\/dashboard\/accounts\/?/', $uri)?true:false:
+		include_once './views/accounts/index.php';
+		break;
+	case preg_match('/^\/dashboard\/profile\/?/', $uri)?true:false:
+		include_once './views/profile/index.php';
+		break;
+	// employee routes
+	case preg_match('/^\/dashboard\/employees\/[0-9]+\/edit\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
+		$token = explode("/", $uri);
+		$id = $token[count($token) - 2];	
+		include_once './views/employees/edit.php';
+		break;
+	case preg_match('/^\/dashboard\/employees\/[0-9]+\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
+		$token = explode("/", $uri);
+		$id = $token[count($token) - 1];
+		include_once './views/employees/select.php';
+		break;
+	case preg_match('/^\/dashboard\/employees\/create\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
+		include_once './views/employees/create.php';
+		break;
+	case preg_match('/^\/dashboard\/employees\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
+		include_once './views/employees/index.php';
+		break;
+	// department routes
+	case preg_match('/^\/dashboard\/departments\/[A-Za-z0-9-_]+\/edit\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
+		$token = explode("/", $uri);
+		$id = $token[count($token) - 2];	
+		include_once './views/departments/edit.php';
+		break;
+	case preg_match('/^\/dashboard\/departments\/create\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
+		include_once './views/departments/create.php';
+		break;
+	case preg_match('/^\/dashboard\/departments\/[A-Za-z0-9-_]+\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
+		$token = explode("/", $uri);
+		$id = $token[count($token) - 1];
+		include_once './views/departments/select.php';
+		break;
+	case preg_match('/^\/dashboard\/departments\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
+		include_once './views/departments/index.php';
+		break;
+	// logs routes
+	case preg_match('/^\/dashboard\/logs[\/\?]?/', $uri)?true:false:
+		include_once './views/logs/index.php';
+		break;
+	default:
+		# code...
+		break;
+}

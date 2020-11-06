@@ -13,7 +13,7 @@ try {
 	$username = htmlspecialchars($_POST['username']);
 	$password = htmlspecialchars($_POST['password']);
 
-	$values = ['name' => $name, 'email' => $email, 'username' => $username, 'password' => $password];
+	$values = [ 'name' => [$name], 'email' => [$email, "e-mail"], 'username' => [$username], 'password' => [$password] ];
 
 	function respond_error() {
 		global $v;
@@ -32,7 +32,7 @@ try {
 		return;
 	}
 
-	if (strlen($username) < 6 || strlen($username) > 20) {	
+	if (strlen($username) < 5 || strlen($username) > 20) {	
 		$v->add_error('username', 'Invalid username, must be at least 6 characters long.');
 		respond_error();		
 		return;
@@ -60,15 +60,16 @@ try {
 		return;
 	}
 
-	$values['password'] = password_hash($values['password'], PASSWORD_DEFAULT);
+	$hashedPassword = password_hash($values['password'][0], PASSWORD_DEFAULT);
 
-	$account->insert($values);
+
+	$account->insert(['name'=>$name, 'email'=>$email, 'username'=>$username, 'password' => $hashedPassword]);
 
 	echo json_encode(['msg' => 'Ok']);		
 
 } catch(Exception $e) {
 
 	http_response_code(500);
-	echo json_encode(['msg' => 'Something went wrong!']);
+	echo json_encode(['msg' => 'Something went wrong!', 'error' => $e->getMessage()]);
 
 }

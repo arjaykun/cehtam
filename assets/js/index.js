@@ -9,7 +9,8 @@ $(document).ready( function() {
 		$(".modal").removeClass('is-active');
 	});
 
-	$('#cancel').on('click', function() {
+	$('#cancel').on('click', function(e) {
+		e.preventDefault();
 		$(".modal").removeClass('is-active');
 	});
 })

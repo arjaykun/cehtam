@@ -3,9 +3,8 @@
 		<link href="../../assets/vendor/datatables/dataTables.bulma.min.css" rel="stylesheet">
 		<link href="../../assets/css/loader.css" rel="stylesheet">';
 	
-	include_once '../../includes/layouts/header.php';
-
-	include_once '../../includes/loadclasses.php';
+	include_once '../includes/layouts/header.php';
+	include_once '../includes/loadclasses.php';
 
 	$account = new Account;
 
@@ -15,7 +14,7 @@
 	
 	<?php 
 		$dashboard_menu = 'accounts';
-		include_once '../components/dashboard-nav.php';
+		include_once './components/dashboard-nav.php';
 	?>
 
 	<section class="section has-background-white">
@@ -46,25 +45,27 @@
 			</article>
 		<?php endif; ?>
 
-		<div class="pb-3 is-flex is-justify-content-space-between is-align-items-center">
-			<h1 class="is-size-3">Account List</h1>
-			<button class="button is-info" id="add-btn">Add Account</button>
+		<div class="pb-3">
+			<h1 class="title">Account List</h1>
+			<h3 class="subtitle">Add, Update & Delete Account</h3>
 		</div>
+
+		<button class="button is-info mt-2 mb-3" id="add-btn">Add Account</button>
 
 		<div class="table-container-mobile">
 			<table id="table" class="table is-striped is-fullwidth is-hoverable">
-				<thead class="has-background-info">
+				<thead>
 					<tr>
-						<th class="is-hidden-mobile has-text-white">Username</th>
-						<th class="has-text-white">Name</th>
-						<th class="is-hidden-mobile has-text-white">E-mail</th>
-						<th class="is-hidden-mobile has-text-white">Account Type</th>
+						<th class="is-hidden-mobile"Username</th>
+						<th>Name</th>
+						<th class="is-hidden-mobile">E-mail</th>
+						<th class="is-hidden-mobile">Account Type</th>
 						<th ></th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach($account->get() as $index =>$data): ?>
-						<?php include './account-row.php' ?>
+						<?php include './views/accounts/account-row.php' ?>
 					<?php endforeach; ?>		
 				</tbody>
 			</table>
@@ -81,7 +82,7 @@
    			<h1 class="title is-3" id="form-title">New Account</h1>
    			<form id="account-form">
 
-   				<?php include_once './accounts-form.php' ?>
+   				<?php include_once './views/accounts/accounts-form.php' ?>
 
 					<input class="button is-info is-fullwidth mt-2" type="submit" name="submit" value="Add Account" id="submit">
 
@@ -106,7 +107,7 @@
 				<div class="buttons"> 
 					<form id="confirm-form">
 						<input type="hidden" id="confirm-id" name="id">
-						<button class="button is-danger" type="submit">
+						<button class="button is-danger mr-1" type="submit">
 				      Delete
 				    </button>
 					</form>
@@ -134,4 +135,4 @@
 <script src="../../assets/js/accounts.js"></script>
 ';
 
-include '../../includes/layouts/footer.php' ?>
+include '../includes/layouts/footer.php' ?>

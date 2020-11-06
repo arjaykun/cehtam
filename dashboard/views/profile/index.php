@@ -1,8 +1,8 @@
 <?php 
-	$additional_styles = '<link href="../../assets/css/loader.css" rel="stylesheet">';
+	$additional_styles = '<link href="../assets/css/loader.css" rel="stylesheet">';
 
-	include_once '../../includes/layouts/header.php'; 
-	include_once '../../includes/loadclasses.php';
+	include_once '../includes/layouts/header.php'; 
+	include_once '../includes/loadclasses.php';
 	$auth = new Auth;
 	$user = $auth->user();
 ?>
@@ -11,7 +11,7 @@
 
 	<?php 
 		$dashboard_menu = 'profile';
-		include_once '../components/dashboard-nav.php';
+		include_once './components/dashboard-nav.php';
 	?>
 
 	<section class="section has-background-white">
@@ -91,7 +91,7 @@
 </div>
 
 <?php 
-	include_once '../components/confirmation.php'; 
+	include_once './components/confirmation.php'; 
 ?>
 
 <section>
@@ -125,7 +125,7 @@
 
 			$(".loading").removeClass("is-hidden");
 			$.ajax({
-				url: "../../includes/process/confirm-password.php",
+				url: "../includes/process/confirm-password.php",
 				type: "POST",
 				data: {password},
 				dataType: "text",
@@ -145,7 +145,7 @@
 
 		function update_account() {
 			$.ajax({
-				url: "../../includes/process/update-account.php",
+				url: "../includes/process/update-account.php",
 				type: "POST",
 				data: $("#account-form").serialize(),  
 				dataType: "json",
@@ -166,5 +166,5 @@
 </script>
 ';
 
-include '../../includes/layouts/footer.php' ?>
+include '../includes/layouts/footer.php' ?>
 

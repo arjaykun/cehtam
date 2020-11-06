@@ -1,35 +1,32 @@
 <?php 
 	$additional_styles = '<link href="../../assets/vendor/datatables/dataTables.bulma.min.css" rel="stylesheet">';
 	
-	include '../../includes/layouts/header.php';
+	include '../includes/layouts/header.php';
 
-	include '../../includes/loadclasses.php';
+	include '../includes/loadclasses.php';
 
 	$employee = new Employee;
 	$employees = $employee->get();
-
-	switch ($_SERVER['REQUEST_URI']) {
-		case '/dashboard/employees/':
-			echo "all";
-			break;
-		case (preg_match('/^\/dashboard\/employees\/[0-9]+$/', $_SERVER['REQUEST_URI']) ? true: false) :
-			echo "specific";
-			break;
-		default:
-			header("Location: /404.html");
-			break;
-	}
 ?>
 
 <div class="container is-max-desktop p-2 has-background-white">
 
 	<section class="section pb-1">
+		
+		<?php if(isset($_GET['delete']) && $_GET['delete'] == 1 ): ?>
+			<article class="message is-primary">
+			  <div class="message-body">
+			    <strong>Success! </strong> Employee Deleted.
+				</div>
+			</article>
+		<?php endif; ?>
+
 		<h1 class="title">Employee Management</h1>
 		<h3 class="subtitle">Add, Update & Delete Employee.</h3>
 		
 		<div class="buttons">		
-			<button class="button is-outlines is-info mb-4">Add New</button>
-			<button class="button is-outlines is-danger mb-4">Export to PDF</button>
+			<a class="button is-outlines is-info mb-4"  href="/dashboard/employees/create">Add New</a>
+			<button class="button is-outlines is-danger mb-4" id="export-btn">Export to PDF</button>
 		</div>
 	</section>
 
@@ -64,20 +61,18 @@
 </div>
 
 
-
 <?php 
 
 $additional_scripts = '
 <script src="../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="../../assets/vendor/datatables/dataTables.bulma.min.js"></script>
 <script>
-  // Call the dataTables jQuery plugin
-  $(document).ready(function() {
-    $("#table").DataTable();
-  });
+$(document).ready(function() {
+   $("#table").DataTable();
+});
 
 </script>';
 
-include '../../includes/layouts/footer.php' ?>
+include '../includes/layouts/footer.php' ?>
 
 

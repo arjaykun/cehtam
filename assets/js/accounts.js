@@ -4,7 +4,8 @@ $(document).ready(function() {
 	  "columnDefs": [
 	    { "orderable": false, "targets": [3,4] }
 	  ],
-	  "lengthChange": false
+	  "lengthChange": false,
+	  "searching": false,
 	});
 
 	let is_add = true;
@@ -59,21 +60,22 @@ $(document).ready(function() {
 			}, 
 			error: function(error) {
 				let errors = [];
-		
+			
 				if (error.responseText)
 					 errors = JSON.parse(error.responseText);
 				
+				console.log(errors);	
 				fields.forEach( field => {
 					$("#"+field).removeClass("is-danger")
 					$("#"+field+"-err").addClass("is-hidden")
 				})
 
-				errors.forEach( err => {
-					const key = Object.keys(err);
+				for(let key in errors) {
 					$("#"+key).addClass("is-danger")
 					$("#"+key+"-err").removeClass("is-hidden")
-					$("#"+key+"-err").html(err[key])
-				})
+					$("#"+key+"-err").html(errors[key])
+				}
+
 			}, 
 			complete: function() {
 				$(".loading").addClass("is-hidden")

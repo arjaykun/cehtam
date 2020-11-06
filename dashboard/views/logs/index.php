@@ -1,4 +1,4 @@
-<?php include '../../includes/layouts/header.php'; ?>
+<?php include '../includes/layouts/header.php'; ?>
 
 <div class="container is-max-desktop p-2 has-background-white">
 
@@ -13,6 +13,6 @@
 
 
 
-<?php include '../../includes/layouts/footer.php' ?>
+<?php include '../includes/layouts/footer.php' ?>
 
 

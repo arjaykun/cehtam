@@ -6,20 +6,27 @@ class Validator {
 
 	public function is_empty($fields) {
 		foreach ($fields as $key => $value) {
-			if(trim($value) == '') 
-				array_push($this->err_fields, [$key => ucwords($key) . ' is required.']);
+			if(trim($value[0]) == '') 
+				$this->err_fields[$key] = ucwords( (count($value) > 1) ? $value[1] : $key) . ' is required.';
 		}
 
 		return count($this->err_fields) > 0 ? true : false;
 	}
 
 	public function add_error($field, $err_msg) {
-		array_push($this->err_fields, [$field => $err_msg]);
-		return false;
+		$this->err_fields[$field] = $err_msg;
+	}
+
+	public function is_proper_name($text) {
+		return preg_match('/^[A-Za-z\.\'\- ]+$/', $text);
+	}
+
+	public function is_alphanum($text) {
+		return preg_match('/^[A-Za-z0-9]+$/', $text);
 	}
 
 	public function error($field) {
-		return in_array($field, $this->err_fields);
+		return isset($this->err_fields[$field]) ? $this->err_fields[$field] : false;
 	}
 
 	public function has_error() {

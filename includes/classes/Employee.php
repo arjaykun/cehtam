@@ -1,12 +1,20 @@
 <?php 
 
 require_once 'Database.php';
+require_once 'Helper.php';
 
 class Employee {
 	private $db;
+	private $helper;
 
 	public function __construct() {
 		$this->db = new Database;
+		$this->helper = new Helper();
+	}
+
+	public function find($id) {
+		$sql = "SELECT * FROM employees where id=:id";
+		return $this->db->query($sql, Database::FETCH_SINGLE, [':id' => $id]); 
 	}
 
 	public function get($filter = null) {
@@ -27,16 +35,28 @@ class Employee {
 		return $this->db->query($sql, Database::FETCH_ALL, $values);
 	}
 
-	public function insert() {
-
+	public function insert($fields) {
+		$sql = "INSERT INTO employees (name, email, contact_num, emp_id, dept_id, job_title, emp_status) VALUES (:name, :email, :contact_num, :emp_id, :dept_id, :job_title, :emp_status)";
+		$values = $this->helper->get_fields_values($fields);
+		return $this->db->query($sql, Database::EXECUTE, $values);
 	}
 
-	public function update() {
-
+	public function update($fields, $id) {
+		$sql = "UPDATE employees SET name=:name, email=:email, contact_num=:contact_num, emp_id=:emp_id, dept_id=:dept_id, job_title=:job_title, emp_status=:emp_status WHERE id=:id";
+		$values = $this->helper->get_fields_values($fields);
+		$values[':id'] = $id;
+ 		return $this->db->query($sql, Database::EXECUTE, $values);
 	}
 
-	public function delete() {
+	public function delete($id) {
+		$sql = "DELETE FROM employees WHERE id=:id";
+		return $this->db->query($sql, Database::EXECUTE, [':id' => $id]);
+	}
 
+	public function is_id_exist($emp_id) {
+		$sql = "SELECT * FROM employees WHERE emp_id=:emp_id";
+		$result = $this->db->query($sql, Database::FETCH_ALL, [':emp_id' => $emp_id]);
+		return count($result) > 0 ? true : false;
 	}
 
 }

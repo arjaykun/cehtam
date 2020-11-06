@@ -4,7 +4,7 @@
    	<div class="card">
    		<div class="card-content">
    			
-   			<h1 class="title is-3"><i class="has-text-info fa fa-question-circle mr-1"></i>Password Confirmation </h1>
+   			<h1 class="title is-4"><i class="has-text-info fa fa-question-circle mr-1"></i>Password Confirmation </h1>
    			<h3 class="subtitle">
    				Please confirm your password to proceed.
    			</h3>
@@ -26,16 +26,16 @@
 						<button class="button is-danger" type="submit">
 				      Confirm
 				    </button>
-				      <button class="button" id="cancel">
-			      Cancel
-			    </button>
+				    <button class="button" id="cancel">
+			      	Cancel
+			   	 </button>
 					</div>
 
 				</form>
 			      
 				</div>
    		</div>
-   	</div>			
+   	</div>	
+   	 <button class="modal-close is-large" aria-label="close"></button>		
   </div>
-  <button class="modal-close is-large" aria-label="close"></button>
-</div>
+ 
