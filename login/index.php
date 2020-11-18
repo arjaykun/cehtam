@@ -25,7 +25,7 @@
 </head>
 <body>
 
-<section class="hero is-light is-fullheight">
+<section class="hero is-white is-fullheight">
 
   <div class="hero-body">
     <div class="container has-text-centered">
@@ -42,11 +42,24 @@
 			    You've logged out successfully. Login again to start your session. 
 			  </div>
 			</article>
+			<?php elseif(isset($_GET['p']) && $_GET['p'] == 1): ?>
+			<article class="message is-primary">
+			  <div class="message-body">
+			    Your password has been updated. Login again to start your session. 
+			  </div>
+			</article>
 			<?php endif; ?>
 
 			<!-- login form here -->
       <div class="column is-4 is-offset-4">
-        <h1 class="is-size-1">LOGO HERE</h1>
+        <h1 class="is-size-1">
+        	<div class="is-flex is-justify-content-center is-align-items-center py-2">					
+						<figure class="image ">
+						  <img class="is-rounded" src="/assets/images/bg/scan.jpg" style="height: 80px; width: 120px">
+						</figure>
+						<h1 class="is-size-3 has-text-weight-bold">CEHTAM</h1>
+					</div>
+        </h1>
         <div class="box">
         	<form method="POST">
 
@@ -69,21 +82,24 @@
 						  </p>
 						</div>
 
-						<div class="field">
-						  <p class="control has-icons-left  has-icons-right">
-						    <input class="input" type="password" placeholder="Password" name="password">
-						    <span class="icon is-small is-left">
+					  <div class="field has-addons has-addons-right">
+					  	<p class="control has-icons-left is-expanded">
+					  	 <input class="input" type="password" placeholder="Password" name="password" id="password">
+						   
+					   	 <span class="icon is-small is-left">
 						      <i class="fa fa-lock"></i>
 						    </span>
-						    <span class="icon is-small is-right is-clickable">
-						      <i class="fa fa-eye"></i>
-						    </span>
-						  </p>
-						</div>
+					  	</p>
+				   		
+					    <p class="control">						    	
+					     	<span class="button" id="show"> <i class="fa fa-eye"></i></span>
+					    </p>
+					    
+					  </div>
 
 						<div class="field">
 						  <p class="control">
-						    <input class="button is-success" value="Login" type="submit" name="submit">
+						    <input class="button is-info is-fullwidth" value="Login" type="submit" name="submit">
  						  </p>
 						</div>
 
@@ -97,6 +113,30 @@
     </div>
   </div>
 </section>
+
+
+<script src="../assets/vendor/jquery/jquery.min.js"></script>
+<script>
+
+$(document).ready( function() {
+
+	$("#show").click( function() {
+		let icon = $(this).children(0);
+		if(icon.attr("class").includes("fa-eye-slash")) {
+			$('#password').attr("type", "password");
+			icon.removeClass("fa-eye-slash");
+			icon.addClass("fa-eye");
+		} else {
+			$('#password').attr("type", "text");
+			icon.removeClass("fa-eye");
+			icon.addClass("fa-eye-slash");
+		}
+		
+	})
+
+})
+
+</script>
 
 </body>
 </html>

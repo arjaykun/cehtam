@@ -1,19 +1,17 @@
-<div class="columns">
-  <div class="column has-background-white p-5">
-    <form enctype="multipart/form-data" method="POST">  
+<form enctype="multipart/form-data" method="POST">  
     <?php if(!isset($edit)): ?>  
     <div class="is-flex is-justify-content-center">     
-      <figure class="image is-128x128 ">
-        <img class="is-rounded" src="/assets/images/employees/default.png">
+      <figure class="image" style="height: 156px; width: 156px">
+        <img class="is-rounded" src="/assets/images/employees/default.png" id="image" style="height: 156px; width: 156px">
       </figure>
     </div>
-    <div class="field">
+    <div class="field mt-3">
       <div class="file is-info is-centered">
         <label class="file-label">
-          <input class="file-input" type="file" name="emp_image">
+          <input class="file-input" type="file" name="emp_image" id="emp_image">
           <span class="file-cta">
             <span class="file-icon">
-              <i class="fa fa-upload"></i>
+              <i class="fa fa-upload"></i>  
             </span>
             <span class="file-label">
               Upload Image
@@ -136,8 +134,3 @@
     <input type="submit" value="<?php echo (isset($edit) && $edit==1 ? 'Update Employee' : 'Add Employee')?>" name="submit" class="button is-info is-fullwidth">
 
    </form>
-  </div>
-  <div class="column has-background-info is-hidden-mobile">
-    
-  </div>
-</div>

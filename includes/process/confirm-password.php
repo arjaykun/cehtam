@@ -4,7 +4,7 @@ session_start();
 
 $hashedPassword = $_SESSION['auth']->password;
 
-if($_POST['password']) {
+if(isset($_POST['password'])) {
 
 	$password =  htmlspecialchars($_POST['password']);
 

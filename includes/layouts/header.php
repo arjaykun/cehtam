@@ -12,7 +12,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>CEHTMAR</title>
+	<title>CEHTAM - Dashboard</title>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../../../assets/css/bulma/css/bulma.min.css">
@@ -30,7 +30,10 @@
 		<div class="navbar-brand">
 
 			<a class="navbar-item brand-text has-text-weight-bold" href="../index.html">
-				CEHTMAR
+				<figure class="image ">
+				  <img class="is-rounded" src="/assets/images/bg/scan.jpg" style="height: 30px; width: 40px">
+				</figure>
+				CEHTAM
 			</a>
 
 			<div class="navbar-burger burger">

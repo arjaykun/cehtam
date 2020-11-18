@@ -21,7 +21,11 @@ switch ($uri) {
 		break;
 	case preg_match('/^\/dashboard\/employees\/[0-9]+\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
 		$token = explode("/", $uri);
-		$id = $token[count($token) - 1];
+		if($uri[strlen($uri) -1] == "/") {
+			$id = $token[count($token) - 2];
+		} else {
+			$id = $token[count($token) - 1];
+		}
 		include_once './views/employees/select.php';
 		break;
 	case preg_match('/^\/dashboard\/employees\/create\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
@@ -48,7 +52,16 @@ switch ($uri) {
 		include_once './views/departments/index.php';
 		break;
 	// logs routes
-	case preg_match('/^\/dashboard\/logs[\/\?]?/', $uri)?true:false:
+	case preg_match('/^\/dashboard\/logs\/[0-9]+\/?\??/', $uri)?true:false:
+		$token = explode("/", $uri);
+		if($uri[strlen($uri) -1] == "/") {
+			$id = $token[count($token) - 2];
+		} else {
+			$id = $token[count($token) - 1];
+		}
+		include_once './views/logs/employee.php';
+		break;
+	case preg_match('/^\/dashboard\/logs\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
 		include_once './views/logs/index.php';
 		break;
 	default:

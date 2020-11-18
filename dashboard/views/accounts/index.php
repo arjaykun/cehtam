@@ -4,6 +4,13 @@
 		<link href="../../assets/css/loader.css" rel="stylesheet">';
 	
 	include_once '../includes/layouts/header.php';
+	
+	if(!$_SESSION['auth']->is_admin) {
+		header("Location: /404.html");
+		exit();
+	}
+
+
 	include_once '../includes/loadclasses.php';
 
 	$account = new Account;
@@ -22,25 +29,37 @@
 		<?php if(isset($_GET['add']) && $_GET['add'] == 1): ?>			
 			<article class="message is-primary">
 			  <div class="message-body">
-			    <strong>Success! </strong> New account created.
+			    <strong>Success! </strong> New account has been created.
 			  </div>
 			</article>
 		<?php elseif(isset($_GET['update']) && $_GET['update'] == 1): ?>
 			<article class="message is-primary">
 			  <div class="message-body">
-			    <strong>Success! </strong> Account Updated.
+			    <strong>Success! </strong> Account has been Updated.
 			  </div>
 			</article>
 		<?php elseif(isset($_GET['delete']) && $_GET['delete'] == 1): ?>
 			<article class="message is-primary">
 			  <div class="message-body">
-			    <strong>Success! </strong> Account deleted.
+			    <strong>Success! </strong> Account has been deleted.
 			  </div>
 			</article>
 		<?php elseif(isset($_GET['delete']) && $_GET['delete'] == 0): ?>
 			<article class="message is-danger">
 			  <div class="message-body">
 			    <strong>Oops! </strong> Failed to delete account, Pleast try again.
+			  </div>
+			</article>
+		<?php elseif(isset($_GET['pwd']) && $_GET['pwd'] == 1): ?>
+			<article class="message is-primary">
+			  <div class="message-body">
+			    <strong>Success! </strong> Password has been changed.
+			  </div>
+			</article>
+		<?php elseif(isset($_GET['pwd']) && $_GET['pwd'] == 0): ?>
+			<article class="message is-danger">
+			  <div class="message-body">
+			    <strong>Oops! </strong> Password does not match..
 			  </div>
 			</article>
 		<?php endif; ?>
@@ -121,6 +140,8 @@
   </div>
   <button class="modal-close is-large" aria-label="close"></button>
 </div>
+
+<?php include_once './views/accounts/change-password-form.php';  ?>
 
 <section>
 	<div class="loading is-hidden">

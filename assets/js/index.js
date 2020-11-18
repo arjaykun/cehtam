@@ -9,6 +9,10 @@ $(document).ready( function() {
 		$(".modal").removeClass('is-active');
 	});
 
+	$('.modal-background').on('click', function() {
+		$(".modal").removeClass('is-active');
+	});
+
 	$('#cancel').on('click', function(e) {
 		e.preventDefault();
 		$(".modal").removeClass('is-active');

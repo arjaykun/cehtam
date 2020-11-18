@@ -36,7 +36,7 @@
 				<tr>
 					<th>Employee ID</th>
 					<th>Name</th>
-					<th>Position</th>
+					<th class="is-hidden-mobile">Position</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -45,7 +45,7 @@
 					<tr>
 						<td><?php echo $emp->emp_id ?></td>
 						<td><?php echo $emp->name ?></td>
-						<td><?php echo $emp->job_title ?></td>
+						<td class="is-hidden-mobile"><?php echo $emp->job_title ?></td>
 						<td>
 							<a href="/dashboard/employees/<?php echo $emp->id ?>">
 								<i class="icon has-text-info-dark fa fa-chevron-circle-right fa-lg"></i>
@@ -68,7 +68,13 @@ $additional_scripts = '
 <script src="../../assets/vendor/datatables/dataTables.bulma.min.js"></script>
 <script>
 $(document).ready(function() {
-   $("#table").DataTable();
+   $("#table").DataTable({
+
+	   	"columnDefs": [
+		    { "orderable": false, "targets": [3] }
+		  ]
+
+   });
 });
 
 </script>';

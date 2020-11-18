@@ -98,6 +98,47 @@ $(document).ready(function() {
 		$("#form-modal").addClass('is-active');
 	})
 
+	//change-password
+	$(".pwd").click(function() {
+		$("#pwd_username").val($(this).attr("id"));
+		$("#change-pass-modal").addClass("is-active");
+	
+	})
+
+	$(".show").click( function(e) {
+		
+			if($(".pwd-icon").attr("class").includes("fa-eye-slash")) {
+				$("#new_pwd").attr("type", "password")
+				$("#confirm_pwd").attr("type", "password")
+			} else {
+				$("#new_pwd").attr("type", "text")
+				$("#confirm_pwd").attr("type", "text")
+			}
+		
+			$(".pwd-icon").toggleClass("fa-eye");
+			$(".pwd-icon").toggleClass("fa-eye-slash");
+	})
+
+
+	$("#change-pass-form").submit( function(e) {
+		e.preventDefault();
+
+		$.ajax({
+			url: "../includes/process/change-password-account.php",
+			type: "POST",
+			data: $(this).serialize(),  
+			dataType: "json",
+			success: function(data) {
+				 window.location.href = "/dashboard/accounts?pwd=1";
+			},
+			error: function(error) {	
+				 window.location.href = "/dashboard/accounts?pwd=0";
+			},
+		})
+
+
+	});
+
 	// delete accounts
 	$(".del").click(function() {
 		$('#delete-modal').addClass('is-active')

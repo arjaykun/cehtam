@@ -41,6 +41,11 @@ class Account {
 		return $this->db->query($sql, Database::EXECUTE, $values);
 	}
 
+	public function change_password($new_password, $username) {
+		$sql = "UPDATE users SET password=:password WHERE username=:username";
+		return $this->db->query($sql, Database::EXECUTE, [":password" => $new_password, ":username" => $username]);
+	}
+
 	public function delete($field) {
 		$sql = "DELETE FROM users WHERE username = :username and is_admin != 1";
 		return $this->db->query($sql, Database::EXECUTE, [':username' => $field]);

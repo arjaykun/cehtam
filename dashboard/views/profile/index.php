@@ -92,6 +92,7 @@
 
 <?php 
 	include_once './components/confirmation.php'; 
+	include_once './views/profile/change-pass-form.php'; 
 ?>
 
 <section>
@@ -162,6 +163,52 @@
 				}
 			});
 		}
+
+		$("#change-pass").click( function() {
+			$("#change-pass-modal").addClass("is-active")
+		})
+
+		$(".show").click( function(e) {
+			e.preventDefault();
+			
+			if($(".pwd-icon").attr("class").includes("fa-eye-slash")) {
+				$("#old_pwd").attr("type", "password")
+				$("#new_pwd").attr("type", "password")
+				$("#confirm_pwd").attr("type", "password")
+			} else {
+				$("#old_pwd").attr("type", "text")
+				$("#new_pwd").attr("type", "text")
+				$("#confirm_pwd").attr("type", "text")
+			}
+		
+			$(".pwd-icon").toggleClass("fa-eye");
+			$(".pwd-icon").toggleClass("fa-eye-slash");
+		})
+
+		$("#change-pass-form").submit(function(e) {
+			e.preventDefault();
+
+			$.ajax({
+				url: "../includes/process/change-password-profile.php",
+				type: "POST",
+				data: $(this).serialize(),  
+				dataType: "json",
+				success: function(data) {
+					window.location.href = "/logout.php?change_pwd=1";
+				},
+				error: function(error) {
+					$("#change-pass-modal").removeClass("is-active")
+					$("#old_pwd").val("");
+					$("#new_pwd").val("");
+					$("#confirm_pwd").val("");
+					let res = JSON.parse(error.responseText);
+					$("#error-msg").removeClass("is-hidden");
+					$("#error-msg").children(".message-body").html("<strong>Oops! </strong>" + res.msg)
+				},
+			})
+
+
+		})
 	});
 </script>
 ';

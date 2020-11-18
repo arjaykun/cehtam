@@ -12,6 +12,9 @@ if (isset($_POST['submit'])) {
 	$emp_status = htmlspecialchars($_POST['emp_status']);
 	$department= htmlspecialchars($_POST['department']);
 	$job_title = htmlspecialchars($_POST['job_title']);
+	$emp_image = $_FILES['emp_image'];
+	$file_name = "default.png";
+
 
 	$fields = [
 		"name" => [$name],
@@ -42,6 +45,19 @@ if (isset($_POST['submit'])) {
 		$v->add_error('emp_id', 'Employee ID already exist.');
 		return;
 	}
+
+	//image
+	
+	if (file_exists($emp_image['tmp_name'])) {
+		// Get file extension
+	  $imageExt = strtolower(pathinfo($emp_image['name'], PATHINFO_EXTENSION));
+		// Set image placement folder
+	  $file_name = implode('-', explode(' ', strtolower($name))).'-'.time().'.'.$imageExt;
+	  $destination = '../assets/images/employees/'.$file_name;
+
+		if(!$v->isAllowedFile($imageExt, 'emp_image'))
+			return;
+	} 
 	
 	try {
 		$employee->insert([
@@ -51,13 +67,19 @@ if (isset($_POST['submit'])) {
 			'dept_id' => $department,
 			'emp_status' => $emp_status,
 			'emp_id' => $emp_id,
-			'job_title' => $job_title
+			'job_title' => $job_title,
+			'emp_image' => $file_name
 		]);
 
+		if(isset($destination)) { 
+			move_uploaded_file($emp_image['tmp_name'], $destination);
+		}
 		$msg = "<strong>Success! </strong> Employee created.";
 		$name = $email = $contacts = $department = $emp_id = $emp_status = $job_title = "";
 		$error = 0;
 	} catch(Exception $e) {
+		echo $e->getMessage();
+		exit();
 		$msg = "<strong>Oops! </strong> Something went wrong";
 		$error = 1;
 	} 

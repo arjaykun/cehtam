@@ -40,7 +40,7 @@ class Validator {
 	public function isAllowedFile($ext, $field) {
 		$allowed = ["jpg", "jpeg", "png"];
 		if(!in_array($ext, $allowed)) {
-			array_push($this->err_fields, [$field => 'Image format is not allowed.']);
+			$this->err_fields[$field] = 'Image format is not allowed.';
 			return false;
 		}
 		return true;

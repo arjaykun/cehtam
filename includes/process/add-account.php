@@ -33,7 +33,7 @@ try {
 	}
 
 	if (strlen($username) < 5 || strlen($username) > 20) {	
-		$v->add_error('username', 'Invalid username, must be at least 6 characters long.');
+		$v->add_error('username', 'Invalid username, must be at least 5 characters long.');
 		respond_error();		
 		return;
 	}

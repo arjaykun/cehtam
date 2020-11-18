@@ -36,7 +36,7 @@ class Employee {
 	}
 
 	public function insert($fields) {
-		$sql = "INSERT INTO employees (name, email, contact_num, emp_id, dept_id, job_title, emp_status) VALUES (:name, :email, :contact_num, :emp_id, :dept_id, :job_title, :emp_status)";
+		$sql = "INSERT INTO employees (name, email, contact_num, emp_id, dept_id, job_title, emp_status, emp_image) VALUES (:name, :email, :contact_num, :emp_id, :dept_id, :job_title, :emp_status, :emp_image)";
 		$values = $this->helper->get_fields_values($fields);
 		return $this->db->query($sql, Database::EXECUTE, $values);
 	}
@@ -46,6 +46,16 @@ class Employee {
 		$values = $this->helper->get_fields_values($fields);
 		$values[':id'] = $id;
  		return $this->db->query($sql, Database::EXECUTE, $values);
+	}
+
+	public function update_image($emp_image, $id) {
+		$sql = "UPDATE employees SET emp_image=:emp_image WHERE id=:id";
+		return $this->db->query($sql, Database::EXECUTE, [':emp_image' => $emp_image, ':id' => $id]);
+	}
+
+	public function add_rfid($rfid, $id) {
+		$sql = "UPDATE employees SET rfid_tag=:rfid WHERE id=:id";
+		return $this->db->query($sql, Database::EXECUTE, [':rfid' => $rfid, ':id' => $id]);
 	}
 
 	public function delete($id) {
