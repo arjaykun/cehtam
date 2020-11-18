@@ -63,12 +63,27 @@
 
 	<script src="assets/vendor/jquery/jquery.min.js"></script>
 	<script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-	<script src="assets/js/jquery-play-sound.js"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="assets/js/swal.js"></script>
 	<script src="assets/js/index.js"></script>
  
 	<script>
 		$(document).ready(function() {
+			
+			(function ($) {
+			    $.extend({
+			        playSound: function () {
+			            return $(
+			                   '<audio class="sound-player" autoplay="autoplay" style="display:none;">'
+			                     + '<source src="' + arguments[0] + '" />'
+			                     + '<embed src="' + arguments[0] + '" hidden="true" autostart="true" loop="false"/>'
+			                   + '</audio>'
+			                 ).appendTo('body');
+			        },
+			        stopSound: function () {
+			            $(".sound-player").remove();
+			        }
+			    });
+			})(jQuery);
 
 			function get_recents() {
 				$(".loading").removeClass("is-hidden");	

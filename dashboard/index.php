@@ -61,10 +61,10 @@ switch ($uri) {
 		}
 		include_once './views/logs/employee.php';
 		break;
-	case preg_match('/^\/dashboard\/logs\/?\??(update=|delete=|pwd=)?[01]?$/', $uri)?true:false:
+	case preg_match('/^\/dashboard\/logs\/?\??(from=\d\d\d\d-\d\d-\d\d&to=\d\d\d\d-\d\d-\d\d)?$/', $uri)?true:false:
 		include_once './views/logs/index.php';
 		break;
 	default:
-		# code...
+		// header('Location: /404.html');
 		break;
 }

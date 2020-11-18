@@ -56,7 +56,7 @@
 					Departments
 				</a>
 				<a class="navbar-item" href="/dashboard/logs">
-					Time Logs
+					Time Log
 				</a>
 
 				<div class="navbar-item has-dropdown is-hoverable">

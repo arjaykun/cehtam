@@ -26,7 +26,7 @@
 		
 		<div class="buttons">		
 			<a class="button is-outlines is-info mb-4"  href="/dashboard/employees/create">Add New</a>
-			<button class="button is-outlines is-danger mb-4" id="export-btn">Export to PDF</button>
+			<a href="/includes/process/generate-employee-pdf.php" target="_blank" class="button is-outlines is-danger mb-4" id="export-btn">Export to PDF</a>
 		</div>
 	</section>
 

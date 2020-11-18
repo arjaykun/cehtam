@@ -15,9 +15,14 @@ class TimeLog {
 		return $this->db->query($sql, Database::FETCH_SINGLE);
 	}
 
-	public function get() {
-		$sql = "SELECT name, e.id, time_in, time_out, time_work  FROM logs as l inner join employees as e on l.emp_id = e.emp_id ORDER BY time_in DESC";
-		return $this->db->query($sql, Database::FETCH_ALL);
+	public function get($start = null, $end = null) {
+		$sql = "SELECT name, e.id, time_in, time_out, time_work  FROM logs as l inner join employees as e on l.emp_id = e.emp_id ";
+		if($start) {
+			$sql .= "WHERE time_in >= :start and time_in <= DATE_ADD(:end, INTERVAL 1 DAY) ";
+		}
+		$sql .= "ORDER BY time_in DESC";
+
+		return $this->db->query($sql, Database::FETCH_ALL, [':start' => $start, ':end' => $end]);
 	}
 
 	public function get_by_emp($emp_id) {
@@ -64,6 +69,19 @@ class TimeLog {
 		$sql = "SELECT TIMESTAMPDIFF(MINUTE, time_in, NOW()) as diff  FROM `logs` WHERE emp_id=:emp_id and time_in >= CURDATE()";
 		$result = $this->db->query($sql, Database::FETCH_SINGLE, [":emp_id" => $emp_id]);
 		return $result->diff >= 5 ? true : false;
+	}
+
+	public function get_hours_work($time_work, $time_in, $time_out) {
+		$start = intval(Date("H", strtotime($time_in)));
+		$end = intval(Date("H", strtotime($time_out)));
+		$time = floatval($time_work/60);
+
+		if($start < 12 && $end >= 13) {
+			return round($time - 1);
+		}
+
+		return round($time);
+		
 	}
 	
 }
