@@ -17,6 +17,11 @@ class Employee {
 		return $this->db->query($sql, Database::FETCH_SINGLE, [':id' => $id]); 
 	}
 
+	public function find_by_emp_id($id) {
+		$sql = "SELECT * FROM employees INNER JOIN departments ON employees.dept_id = departments.dept_id where emp_id=:id ";
+		return $this->db->query($sql, Database::FETCH_SINGLE, [':id' => $id]); 
+	}
+
 	public function get($filter = null) {
 		$sql = "SELECT * FROM employees ";
 		$values = [];

@@ -19,12 +19,6 @@ class PDF extends FPDF
         $this->Ln(5);
         $this->Cell(20);
         $this->Cell(10, 5, "Tracing and Monitoring");
-        // Move to the right
-        // $this->Cell(80);
-        // // Title
-        // $this->SetFont('Arial','B',13);
-        // $this->Cell(80,10,'Employee List',1,0,'C');
-        // // Line break
         $this->Ln(20);
 
     }
@@ -37,7 +31,10 @@ class PDF extends FPDF
         // Arial italic 8
         $this->SetFont('Arial','I',8);
         // Page number
-        $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+        $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'L');
+        session_start();
+        $this->SetY(-15);
+        $this->Cell(0,10,'Prepared by:' . $_SESSION['auth']->name,0,0,'R');
     }
 }
  

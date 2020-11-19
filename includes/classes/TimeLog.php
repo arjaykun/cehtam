@@ -17,7 +17,7 @@ class TimeLog {
 
 	public function get($start = null, $end = null) {
 		$sql = "SELECT name, e.id, time_in, time_out, time_work  FROM logs as l inner join employees as e on l.emp_id = e.emp_id ";
-		if($start) {
+		if($start && $end) {
 			$sql .= "WHERE time_in >= :start and time_in <= DATE_ADD(:end, INTERVAL 1 DAY) ";
 		}
 		$sql .= "ORDER BY time_in DESC";
@@ -25,18 +25,21 @@ class TimeLog {
 		return $this->db->query($sql, Database::FETCH_ALL, [':start' => $start, ':end' => $end]);
 	}
 
-	public function get_by_emp($emp_id) {
-		$sql = "SELECT time_in, time_out, time_work FROM logs WHERE emp_id=:emp_id ORDER BY time_in DESC ";
-		return $this->db->query($sql, Database::FETCH_ALL, [":emp_id" => $emp_id]);
-	}
-
-	public function get_total_work_time($emp_id) {
-		$sql = "SELECT sum(time_work) as total FROM logs WHERE emp_id=:emp_id";
-		$res = $this->db->query($sql, Database::FETCH_SINGLE, [":emp_id" => $emp_id]);
-		if ($res) {
-			return round(($res->total /60), 2);
+	public function get_by_emp($emp_id, $limit=10, $start = null, $end = null) {
+		$sql = "SELECT time_in, time_out, time_work FROM logs WHERE emp_id=:emp_id ";
+		$values = [":emp_id" => $emp_id];
+		if($start && $end) {
+			$sql .= "and time_in >= :start and time_in <= DATE_ADD(:end, INTERVAL 1 DAY) ";
+			$values[":start"] = $start;
+			$values[":end"] = $end;
 		}
-		return 0;
+		$sql .= "ORDER BY time_in DESC ";
+
+		if($limit != 0) {
+			$sql .= "LIMIT " . $limit ;
+		}
+
+		return $this->db->query($sql, Database::FETCH_ALL, $values);
 	}
 
 	public function get_recent() {
@@ -74,14 +77,16 @@ class TimeLog {
 	public function get_hours_work($time_work, $time_in, $time_out) {
 		$start = intval(Date("H", strtotime($time_in)));
 		$end = intval(Date("H", strtotime($time_out)));
-		$time = floatval($time_work/60);
-
+		$time = round(floatval($time_work/60), 2);
+		$output = [];
 		if($start < 12 && $end >= 13) {
-			return round($time - 1);
+			$time = round($time - 1, 2);
 		}
 
-		return round($time);
+		$output['regular'] = $time > 8 ? 8 : $time;
+		$output['overtime'] = $time > 8 ? $time - 8: 0;
 		
+		return $output;
 	}
-	
+
 }

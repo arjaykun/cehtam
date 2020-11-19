@@ -52,7 +52,7 @@ switch ($uri) {
 		include_once './views/departments/index.php';
 		break;
 	// logs routes
-	case preg_match('/^\/dashboard\/logs\/[0-9]+\/?\??/', $uri)?true:false:
+	case preg_match('/^\/dashboard\/logs\/[0-9]+\/?\??(from=\d\d\d\d-\d\d-\d\d&to=\d\d\d\d-\d\d-\d\d)?$/', $uri)?true:false:
 		$token = explode("/", $uri);
 		if($uri[strlen($uri) -1] == "/") {
 			$id = $token[count($token) - 2];

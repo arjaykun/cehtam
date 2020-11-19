@@ -6,12 +6,20 @@
 	$employee = new Employee;
 	$log = new TimeLog;
 
+	//validate if employee id exist
 	$emp = $employee->find($id);
 	if(!$emp) {
 		header('Location: /404.html');
 		exit();
 	}
-	$logs = $log->get_by_emp($emp->emp_id);
+
+	$export_url = "/includes/process/generate-employee-log-pdf.php?emp=".$emp->emp_id;
+	if (isset($_GET['to']) && isset($_GET['from'])) {
+		$logs = $log->get_by_emp($emp->emp_id, 0, $_GET['from'], $_GET['to']);
+		$export_url.='&from='.$_GET['from'].'&to='.$_GET['to'];
+	} else {
+		$logs = $log->get_by_emp($emp->emp_id);
+	}
 ?>
 
 <div class="container is-max-desktop mt-6">
@@ -33,18 +41,8 @@
 		
 
 			<div class="buttons py-2">
-				<button class="button is-small is-info" >
-	    		Filter by month (<?php echo Date("M") ?>)
-				</button>
-				<button class="button is-small is-info">
-	    		Filter by year (<?php echo Date("Y") ?>)
-				</button>
-				<button class="button is-small is-warning">
-	    		View All
-				</button>
-				<button class="button  is-small is-primary" id="delete-btn">
-					Custom Filter
-				</button>
+				<button class="button is-info" id="filter">Filter</button>
+				<a class="button is-danger" href="<?php echo $export_url ?>" target="_blank">Export to PDF</a>
 			</div>
 
 			<div class="">
@@ -53,20 +51,32 @@
 						<tr>
 							<th>Time-in</th>
 							<th>Time-out</th>
-							<th>Work/ Day</th>
+							<th>Regular</th>
+							<th>OT</th>
 						</tr>
 					</thead>
 					<tbody>
+						<?php 
+							$total_regular = 0;
+							$total_ot = 0;
+						?>
 						<?php foreach($logs as $timeLog): ?>
+							<?php 
+								$time = $log->get_hours_work($timeLog->time_work, $timeLog->time_in, $timeLog->time_out); 
+								$total_regular += $time['regular'];
+								$total_ot += $time['overtime']
+							?>
 							<tr>
 								<td><?php echo date("m/d/Y h:i a", strtotime($timeLog->time_in)) ?></td>
 								<td><?php echo date("h:i a", strtotime($timeLog->time_out)) ?></td>
-								<td><?php echo round($timeLog->time_work/60, 2)?>h</td>
+								<td><?php echo $time['regular'] ?></td>
+								<td><?php echo $time['overtime'] ?></td>
 							</tr>
 						<?php endforeach; ?>
 						<tr>
 							<td colspan="2" class="has-text-right has-text-weight-bold">Total Hours:</td>
-							<td><?php echo $log->get_total_work_time($emp->emp_id) ?>h</td>
+							<td><?php echo $total_regular ?>h</td>
+							<td><?php echo $total_ot ?>h</td>
 						</tr>
 					</tbody>
 			</table>
@@ -74,7 +84,7 @@
 			</div>
 				
 	</div>
-
+</div>
 
 <section>
 	<div class="loading is-hidden">
@@ -82,12 +92,27 @@
 	</div>
 </section>
 
+<?php 
+include_once './views/logs/filter-modal.php';
+
+$additional_scripts = '
+<script src="../../assets/vendor/moment/moment.min.js"></script>
+<script src="../../assets/vendor/jquery-ui/jquery-ui.js"></script>
+
+';
+?>
+
 
 
 <?php include '../includes/layouts/footer.php'; ?>
+
 <script>
 	$(document).ready(function() {
-		alert("hero")
+		<?php include_once './views/logs/filter-js-scripts.php' ?>
+		
+		$("#all").click(function() {
+		   window.location.href = "/dashboard/logs/<?php echo $emp->id ?>";
+		})
 	})
 </script>
 
