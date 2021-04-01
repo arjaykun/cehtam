@@ -1,4 +1,7 @@
 # cehtam
+
+tech used: native php, bulma css framework, jquery, mysql.
+
 Company employee handsfree tracing and monitoring 
 
 * Time-in/ Time-out
